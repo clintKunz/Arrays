@@ -53,11 +53,7 @@ void resize_array(Array *arr) {
   char **new_elements = malloc(arr->capacity * sizeof(char *) * 2);
   // Copy elements into the new storage
   for (int i = 0; i < arr->capacity; i++) {
-    if (arr->elements[i] != NULL) {
       new_elements[i] = arr->elements[i];
-    } else {
-      break; 
-    }
   }
   // Free the old elements array (but NOT the strings they point to)
   free(arr->elements);
@@ -149,12 +145,10 @@ void arr_remove(Array *arr, char *element) {
     if (strcmp(arr->elements[i], element) == 0) {
       free(arr->elements[i]);
       // Shift over every element after the removed element to the left one position
-      for (int j = i; j < (arr->count - 1); j++) {
+      for (int j = i; j < arr->count; j++) {
         arr->elements[j] = arr->elements[j+1];
       }
-      //set last element to NULL
-      arr->elements[arr->count] = NULL; 
-         
+      
       // Decrement count by 1
       arr->count--; 
       break;
