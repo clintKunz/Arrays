@@ -80,7 +80,7 @@ char *arr_read(Array *arr, int index) {
   // Throw an error if the index is greater or equal to than the current count
   if (arr->count < index) {
     perror("Out of range");
-    return 0; 
+    return NULL; 
   }
   // Otherwise, return the element at the given index
   return arr->elements[index];
@@ -148,7 +148,7 @@ void arr_remove(Array *arr, char *element) {
       for (int j = i; j < arr->count; j++) {
         arr->elements[j] = arr->elements[j+1];
       }
-      
+
       // Decrement count by 1
       arr->count--; 
       break;
