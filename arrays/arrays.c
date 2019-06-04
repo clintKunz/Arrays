@@ -160,6 +160,15 @@ void arr_remove(Array *arr, char *element) {
   }
 }
 
+void arr_clear(Array *arr) {
+  // loop through elements and call remove function
+  int i;
+  for (i = 0; i < arr->count; i++) {
+    free(arr->elements[i]);
+  }
+  arr->count -= i; 
+}
+
 
 /*****
  * Utility function to print an array.
@@ -186,8 +195,10 @@ int main(void)
   arr_append(arr, "STRING4");
   arr_insert(arr, "STRING2", 0);
   arr_insert(arr, "STRING3", 1);
-  arr_print(arr);
-  arr_remove(arr, "STRING3");
+  //arr_print(arr);
+  //arr_remove(arr, "STRING3");
+  //arr_print(arr);
+  arr_clear(arr);
   arr_print(arr);
 
   destroy_array(arr);
