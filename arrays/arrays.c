@@ -38,8 +38,11 @@ Array *create_array (int capacity) {
 void destroy_array(Array *arr) {
 
   // Free all elements
-  free(arr->elements);
+  for (int i = 0; i < arr->count; i++) {
+    free(arr->elements[i]);
+  }
   // Free array
+  free(arr->elements);
   free(arr);
 }
 
@@ -78,7 +81,7 @@ void resize_array(Array *arr) {
 char *arr_read(Array *arr, int index) {
 
   // Throw an error if the index is greater or equal to than the current count
-  if (arr->count < index) {
+  if (arr->count <= index) {
     perror("Out of range");
     return NULL; 
   }
@@ -125,7 +128,8 @@ void arr_append(Array *arr, char *element) {
     resize_array(arr);
   }
   // Copy the element and add it to the end of the array
-  arr->elements[(arr->count)] = element; 
+  char *copy = strdup(element);
+  arr->elements[(arr->count)] = copy; 
   // Increment count by 1
   arr->count++; 
 
