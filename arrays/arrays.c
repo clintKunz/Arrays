@@ -31,6 +31,10 @@ Array *create_array (int capacity) {
   return arr; 
 }
 
+arr_copy(Array *arr) {
+  
+}
+
 
 /*****
  * Free memory for an array and all of its stored elements
@@ -145,18 +149,21 @@ void arr_remove(Array *arr, char *element) {
 
   // Search for the first occurence of the element and remove it.
   // Don't forget to free its memory!
+  int removed = 0; 
   for (int i = 0; i < arr->count; i++) {
-    if (strcmp(arr->elements[i], element) == 0) {
-      free(arr->elements[i]);
+    if (removed) {
       // Shift over every element after the removed element to the left one position
-      for (int j = i; j < arr->count; j++) {
-        arr->elements[j] = arr->elements[j+1];
-      }
-
-      // Decrement count by 1
-      arr->count--; 
-      break;
+      arr->elements[i-1] = arr->elements[i];
+    } else if (strcmp(element, arr->elements[i]) == 0) {
+      free(arr->elements[i]);
+      removed = 1;
     }
+  }
+  // Decrement count by 1
+  if (removed) {
+    arr->count--;
+  } else {
+    fprintf(stderr, "ValueError: %s is not in array.\n", element);
   }
 }
 
@@ -195,10 +202,11 @@ int main(void)
   arr_append(arr, "STRING4");
   arr_insert(arr, "STRING2", 0);
   arr_insert(arr, "STRING3", 1);
-  //arr_print(arr);
-  //arr_remove(arr, "STRING3");
-  //arr_print(arr);
+  arr_print(arr);
+  arr_remove(arr, "STRING5");
+  arr_print(arr);
   arr_clear(arr);
+  arr_append(arr, "STRING4");
   arr_print(arr);
 
   destroy_array(arr);
